@@ -1,5 +1,7 @@
 //importando el express
 const express = require('express'); 
+const cors  = require('cors');
+const bodyParser = require('body-parser')
 
 //imporanto lo que esta en carpeta database y trayendo la configuaracion hecha en config.js
 const dbConnection = require('../database/config')
@@ -20,6 +22,8 @@ class server {
 
     middlewares() {
         this.app.use(express.static(__dirname + '/'));
+        this.app.use(cors());
+        this.app.use(bodyParser.json());
 
     }
 

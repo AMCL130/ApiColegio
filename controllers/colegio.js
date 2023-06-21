@@ -22,13 +22,13 @@ const getColegio = async (req, res = response) => {
 
 const postColegio = async (req, res = response) => {
 
-    const body = req.query //Desestructuración
+    const body = req.body //Desestructuración
     let mensaje = ''
     const colegio = new Colegio(body) // Crear el objeto
     console.log(body)
     try {
         await colegio.save()
-        mensaje = 'Colegio registrado exitosamente'
+        mensaje = 'Colegio registrado correctamente'
     } catch (error) {
         mensaje = error
     }
@@ -41,20 +41,25 @@ const postColegio = async (req, res = response) => {
 
 const putColegio = async (req, res = response) => {
     //Actualización de datos
-    const body = req.query //Desestructuración
+    const body = req.body //Desestructuración
     console.log(body)
 
-    let mensaje = ''
-
     try {
-        await Colegio.findOneAndUpdate({ direccion: body.direccion, latitud: body.latitud, longitud: body.logintud, descripcion: body.descripcion })
-        mensaje = 'Colegio modificado exitosamente'
+        // if(body.tipoModificacion == 'Unitaria'){
+//            await Colegio.findOneAndUpdate({nombre:body.nombre}, {rol:body.rol, estado:body.estado})
+            await Colegio.findOneAndUpdate({_id:body._id}, {direccion:body.direccion, latitud:body.latitud, longitud:body.longitud,descripcion:body.descripcion})
+            mensaje = 'Colegio modificado exitosamente. Modificación: Sencilla'
+        // }
+        // else{
+        //     await Colegio.updateMany({password:body.password}, {rol:body.rol, estado:body.estado})
+        //     mensaje = 'Colegio modificado exitosamente. Modificación: Múltiple'
+        // }
 
 
-    } catch (error) {
+    }catch (error) {
         mensaje = error
     }
-    //console.log('---------------'+mensaje)
+    
     res.json({
         mensaje: mensaje
     })
@@ -63,11 +68,11 @@ const putColegio = async (req, res = response) => {
 
 const deleteColegio = async (req, res = response) => {
     //Actualización de datos
-    const body = req.query//Desestructuración
+    const body = req.body//Desestructuración
     let mensaje = ''
 
     try {
-        await Colegio.deleteOne({ direccion: body.direccion })
+        await Colegio.deleteOne({_id: body._id })
         mensaje = 'Eliminado exitosamente'
     } catch (error) {
         mensaje = error

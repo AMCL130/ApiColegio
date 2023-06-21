@@ -1,6 +1,11 @@
 
 const {Schema, model} = require('mongoose') 
 
+
+const validarLongitutd= (value)=>{
+    return value >= -75.5 && value <= -75.43
+}
+
 const ColegioSchema = Schema({
     direccion: {
         type: String,
@@ -18,8 +23,12 @@ const ColegioSchema = Schema({
     longitud: {
         type: Number,
         required: [true, 'la longitud es obligatorio'],
-        minlength: [-75.43, 'Mínimo debe digitar -75,43 caracteres'],
-        maxlength: [-75.50, 'Máximo debe digitar -75,5 caracteres']
+        minlength: [-75.50, 'Mínimo debe digitar -75,5 caracteres'],
+        maxlength: [-75.43, 'Máximo debe digitar -75,43 caracteres'],
+        validate:{
+            validator: validarLongitutd,
+            message: `el valor debe estar entre los rangos de -75.5 a -75.43`
+        }
 
     },
 
